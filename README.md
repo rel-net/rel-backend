@@ -1,6 +1,6 @@
 # Rel.
 
-> 🌱 Garden your network
+_🌱 Garden your network_
 
 ![logo](./misc/rel.png)
 
