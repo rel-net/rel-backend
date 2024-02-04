@@ -1,6 +1,7 @@
 package main
 
 import (
+	"rel/controllers"
 	"rel/initializers"
 
 	"github.com/gin-gonic/gin"
@@ -8,14 +9,15 @@ import (
 
 func init() {
 	initializers.LoadEnvVariables()
+	initializers.ConnectToDB()
 }
 
 func main() {
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	r.POST("/contact", controllers.CreateContact)
+	r.GET("/contact", controllers.ListContacts)
+	r.GET("/contact/:id", controllers.GetContact)
+	r.PUT("/contact/:id", controllers.UpdateContact)
+	r.DELETE("/contact/:id", controllers.DeleteContact)
 	r.Run()
 }
