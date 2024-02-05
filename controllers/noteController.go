@@ -74,6 +74,17 @@ func ListNote(c *gin.Context) {
 	})
 }
 
+func GetNote(c *gin.Context) {
+	id := c.Param("note_id")
+
+	var note models.Note
+	initializers.DB.First(&note, id)
+
+	c.JSON(200, gin.H{
+		"note": note,
+	})
+}
+
 func UpdateNote(c *gin.Context) {
 	id := c.Param("note_id")
 

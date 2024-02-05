@@ -22,8 +22,9 @@ func main() {
 	r.DELETE("/contact/:id", controllers.DeleteContact)
 
 	// NOTE
-	r.POST("/note/:user_id", controllers.CreateNote)
-	r.GET("/note/:user_id", controllers.ListNote)
+	r.POST("/note/contact/:user_id", controllers.CreateNote)
+	r.GET("/note/contact/:user_id", controllers.ListNote)
+	r.GET("/note/:note_id", controllers.GetNote)
 	r.PUT("/note/:note_id", controllers.UpdateNote)
 	r.DELETE("/note/:note_id", controllers.DeleteNote)
 	r.Run()
