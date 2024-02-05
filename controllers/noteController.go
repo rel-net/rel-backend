@@ -93,3 +93,9 @@ func UpdateNote(c *gin.Context) {
 		"note": note,
 	})
 }
+
+func DeleteNote(c *gin.Context) {
+	id := c.Param("note_id")
+	initializers.DB.Delete(&models.Note{}, id)
+	c.Status(200)
+}
