@@ -27,5 +27,12 @@ func main() {
 	r.GET("/api/note/:note_id", controllers.GetNote)
 	r.PUT("/api/note/:note_id", controllers.UpdateNote)
 	r.DELETE("/api/note/:note_id", controllers.DeleteNote)
+
+	// REMINDER
+	r.POST("/api/reminder/contact/:contact_id", controllers.CreateReminder)
+	r.GET("/api/reminder/contact/:contact_id", controllers.ListReminder)
+	r.GET("/api/reminder/:reminder_id", controllers.GetReminder)
+	r.PUT("/api/reminder/:reminder_id", controllers.UpdateReminder)
+	r.DELETE("/api/reminder/:reminder_id", controllers.DeleteReminder)
 	r.Run()
 }
