@@ -11,15 +11,15 @@ import (
 
 func CreateNote(c *gin.Context) {
 
-	userId := c.Param("user_id")
-	userIdUint, err := strconv.ParseUint(userId, 10, 64)
+	contactId := c.Param("contact_id")
+	contactIdUIint, err := strconv.ParseUint(contactId, 10, 64)
 	if err != nil {
 		c.Status(400)
 		return
 	}
 	var contact models.Contact
 
-	if err := initializers.DB.First(&contact, userIdUint).Error; err != nil {
+	if err := initializers.DB.First(&contact, contactIdUIint).Error; err != nil {
 		c.Status(404)
 		return
 	}
@@ -31,7 +31,7 @@ func CreateNote(c *gin.Context) {
 	c.Bind(&body)
 
 	note := models.Note{
-		ContactId: userIdUint,
+		ContactId: contactIdUIint,
 		Date:      time.Now(),
 		Content:   body.Content,
 	}
@@ -50,21 +50,21 @@ func CreateNote(c *gin.Context) {
 
 func ListNote(c *gin.Context) {
 
-	userId := c.Param("user_id")
-	userIdUint, err := strconv.ParseUint(userId, 10, 64)
+	contactId := c.Param("contact_id")
+	contactIdUIint, err := strconv.ParseUint(contactId, 10, 64)
 	if err != nil {
 		c.Status(400)
 		return
 	}
 	// check if the user exists
 	var contact models.Contact
-	if err := initializers.DB.First(&contact, userIdUint).Error; err != nil {
+	if err := initializers.DB.First(&contact, contactIdUIint).Error; err != nil {
 		c.Status(404)
 		return
 	}
 
 	var notes []models.Note
-	if err := initializers.DB.Where("contact_id = ?", userIdUint).Find(&notes).Error; err != nil {
+	if err := initializers.DB.Where("contact_id = ?", contactIdUIint).Find(&notes).Error; err != nil {
 		c.Status(500)
 		return
 	}

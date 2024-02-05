@@ -22,8 +22,8 @@ func main() {
 	r.DELETE("/api/contact/:id", controllers.DeleteContact)
 
 	// NOTE
-	r.POST("/api/note/contact/:user_id", controllers.CreateNote)
-	r.GET("/api/note/contact/:user_id", controllers.ListNote)
+	r.POST("/api/note/contact/:contact_id", controllers.CreateNote)
+	r.GET("/api/note/contact/:contact_id", controllers.ListNote)
 	r.GET("/api/note/:note_id", controllers.GetNote)
 	r.PUT("/api/note/:note_id", controllers.UpdateNote)
 	r.DELETE("/api/note/:note_id", controllers.DeleteNote)
