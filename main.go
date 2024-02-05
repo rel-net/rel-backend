@@ -24,5 +24,6 @@ func main() {
 	// NOTE
 	r.POST("/note/:user_id", controllers.CreateNote)
 	r.GET("/note/:user_id", controllers.ListNote)
+	r.PUT("/note/:note_id", controllers.UpdateNote)
 	r.Run()
 }

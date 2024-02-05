@@ -73,3 +73,23 @@ func ListNote(c *gin.Context) {
 		"notes": notes,
 	})
 }
+
+func UpdateNote(c *gin.Context) {
+	id := c.Param("note_id")
+
+	var body struct {
+		ContactId uint64
+		Date      time.Time
+		Content   string
+	}
+
+	var note models.Note
+	initializers.DB.First(&note, id)
+
+	c.Bind(&body)
+	initializers.DB.Model(&note).Updates(models.Note{ContactId: body.ContactId, Date: body.Date, Content: body.Content})
+
+	c.JSON(200, gin.H{
+		"note": note,
+	})
+}
