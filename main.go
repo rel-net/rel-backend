@@ -15,17 +15,17 @@ func init() {
 func main() {
 	r := gin.Default()
 	// CONTACT
-	r.POST("/contact", controllers.CreateContact)
-	r.GET("/contact", controllers.ListContacts)
-	r.GET("/contact/:id", controllers.GetContact)
-	r.PUT("/contact/:id", controllers.UpdateContact)
-	r.DELETE("/contact/:id", controllers.DeleteContact)
+	r.POST("/api/contact", controllers.CreateContact)
+	r.GET("/api/contact", controllers.ListContacts)
+	r.GET("/api/contact/:id", controllers.GetContact)
+	r.PUT("/api/contact/:id", controllers.UpdateContact)
+	r.DELETE("/api/contact/:id", controllers.DeleteContact)
 
 	// NOTE
-	r.POST("/note/contact/:user_id", controllers.CreateNote)
-	r.GET("/note/contact/:user_id", controllers.ListNote)
-	r.GET("/note/:note_id", controllers.GetNote)
-	r.PUT("/note/:note_id", controllers.UpdateNote)
-	r.DELETE("/note/:note_id", controllers.DeleteNote)
+	r.POST("/api/note/contact/:user_id", controllers.CreateNote)
+	r.GET("/api/note/contact/:user_id", controllers.ListNote)
+	r.GET("/api/note/:note_id", controllers.GetNote)
+	r.PUT("/api/note/:note_id", controllers.UpdateNote)
+	r.DELETE("/api/note/:note_id", controllers.DeleteNote)
 	r.Run()
 }
