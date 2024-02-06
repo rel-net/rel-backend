@@ -35,6 +35,16 @@ func ListContacts(c *gin.Context) {
 	var contacts []models.Contact
 	initializers.DB.Find(&contacts)
 
+	if strings.HasPrefix(c.Request.URL.Path, "/home") {
+		// Handle HTML rendering logic
+		// You can load HTML templates and render them
+
+		c.HTML(http.StatusOK, "contacts.html", gin.H{
+			"contacts": contacts,
+		})
+		return
+	}
+
 	c.JSON(200, gin.H{
 		"contacts": contacts,
 	})

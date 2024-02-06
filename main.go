@@ -20,6 +20,8 @@ func main() {
 
 	r.GET("/home", controllers.Home)
 	r.GET("/home/contact/:contact_id", controllers.GetContact)
+	r.GET("/home/contacts", controllers.ListContacts)
+
 	// CONTACT
 	r.POST("/api/contact", controllers.CreateContact)
 	r.GET("/api/contact", controllers.ListContacts)
