@@ -22,6 +22,7 @@
 
 </body>
 <script>
+    // this function allows to pass parameters in path directly, without using query string like default behavior on hx-get with forms
     document.body.addEventListener("htmx:configRequest", function (event) {
       let pathWithParameters = event.detail.path.replace(/:([A-Za-z0-9_]+)/g, function (_match, parameterName) {
         let parameterValue = event.detail.parameters[parameterName]
