@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"net/http"
 	"rel/initializers"
 	"rel/models"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,11 +40,26 @@ func ListContacts(c *gin.Context) {
 	})
 }
 
+func Home(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", gin.H{})
+	return
+}
+
 func GetContact(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Param("contact_id")
 
 	var contact models.Contact
 	initializers.DB.First(&contact, id)
+
+	if strings.HasPrefix(c.Request.URL.Path, "/home") {
+		// Handle HTML rendering logic
+		// You can load HTML templates and render them
+
+		c.HTML(http.StatusOK, "test.html", gin.H{
+			"contact": contact,
+		})
+		return
+	}
 
 	c.JSON(200, gin.H{
 		"contact": contact,

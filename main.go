@@ -14,6 +14,12 @@ func init() {
 
 func main() {
 	r := gin.Default()
+
+	r.LoadHTMLGlob("templates/*")
+	r.Static("/static", "./static")
+
+	r.GET("/home", controllers.Home)
+	r.GET("/home/contact/:contact_id", controllers.GetContact)
 	// CONTACT
 	r.POST("/api/contact", controllers.CreateContact)
 	r.GET("/api/contact", controllers.ListContacts)

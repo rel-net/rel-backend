@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Details</title>
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.js"></script>
+</head>
+<body>
+<h1>Rel.</h1>
+<h2>🌱 Garden your network</h2>
+
+<form hx-get="/home/contact/:contact_id" hx-swap="innerHTML" hx-trigger="submit" hx-target="#contact-details">
+    <label for="contact_id">Enter Contact ID:</label>
+    <input type="text" id="contact_id" name="contact_id" required>
+    <button type="submit">Get Contact</button>
+</form>
+
+<div id="contact-details">
+    <!-- The contact details will be populated here -->
+</div>
+
+</body>
+<script>
+    document.body.addEventListener("htmx:configRequest", function (event) {
+      let pathWithParameters = event.detail.path.replace(/:([A-Za-z0-9_]+)/g, function (_match, parameterName) {
+        let parameterValue = event.detail.parameters[parameterName]
+        delete event.detail.parameters[parameterName]
+
+        return parameterValue
+      })
+
+      event.detail.path = pathWithParameters
+    })
+</script>
+</html>
