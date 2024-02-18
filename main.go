@@ -4,6 +4,7 @@ import (
 	"rel/controllers"
 	"rel/initializers"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,12 @@ func init() {
 
 func main() {
 	r := gin.Default()
+
+	// Use CORS middleware
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:5173"} // Replace with your actual frontend domain
+	r.Use(cors.New(config))
+
 	// CONTACT
 	r.POST("/api/contact", controllers.CreateContact)
 	r.GET("/api/contact", controllers.ListContacts)
