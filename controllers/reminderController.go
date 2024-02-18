@@ -71,6 +71,31 @@ func GetReminder(c *gin.Context) {
 	})
 }
 
+func ListContactReminder(c *gin.Context) {
+	contactId := c.Param("contact_id")
+	contactIdUIint, err := strconv.ParseUint(contactId, 10, 64)
+	if err != nil {
+		c.Status(400)
+		return
+	}
+	// check if the user exists
+	var contact models.Contact
+	if err := initializers.DB.First(&contact, contactIdUIint).Error; err != nil {
+		c.Status(404)
+		return
+	}
+
+	var reminders []models.Reminder
+	if err := initializers.DB.Where("contact_id = ?", contactIdUIint).Find(&reminders).Error; err != nil {
+		c.Status(500)
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"reminders": reminders,
+	})
+}
+
 func UpdateReminder(c *gin.Context) {
 	id := c.Param("reminder_id")
 

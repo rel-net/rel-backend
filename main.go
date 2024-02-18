@@ -41,6 +41,7 @@ func main() {
 	// REMINDER
 	r.POST("/api/reminder/contact/:contact_id", controllers.CreateReminder)
 	r.GET("/api/reminder/contact", controllers.ListReminder)
+	r.GET("/api/reminder/contact/:contact_id", controllers.ListContactReminder)
 	r.GET("/api/reminder/:reminder_id", controllers.GetReminder)
 	r.PUT("/api/reminder/:reminder_id", controllers.UpdateReminder)
 	r.DELETE("/api/reminder/:reminder_id", controllers.DeleteReminder)
