@@ -11,4 +11,5 @@ type Reminder struct {
 	ContactId uint64
 	Date      time.Time
 	Todo      string
+	Status    string
 }

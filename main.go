@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"rel/controllers"
 	"rel/initializers"
+	"rel/models"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -37,9 +40,34 @@ func main() {
 
 	// REMINDER
 	r.POST("/api/reminder/contact/:contact_id", controllers.CreateReminder)
-	r.GET("/api/reminder/contact/:contact_id", controllers.ListReminder)
+	r.GET("/api/reminder/contact", controllers.ListReminder)
 	r.GET("/api/reminder/:reminder_id", controllers.GetReminder)
 	r.PUT("/api/reminder/:reminder_id", controllers.UpdateReminder)
 	r.DELETE("/api/reminder/:reminder_id", controllers.DeleteReminder)
+
+	go startReminderScheduler()
+
 	r.Run()
+}
+
+func startReminderScheduler() {
+	for {
+		var reminders []models.Reminder
+		initializers.DB.Find(&reminders)
+
+		fmt.Println("Hello from the scheduler")
+
+		for _, reminder := range reminders {
+			if reminder.Status == "Pending" {
+				if reminder.Date.Before(time.Now()) || reminder.Date.Equal(time.Now()) {
+					fmt.Printf("Reminder for Contact %d: %s\n %s\n", reminder.ContactId, reminder.Todo, reminder.Status)
+					initializers.DB.Model(&reminder).Updates(models.Reminder{Status: "Sent"})
+				}
+			}
+
+		}
+		// Sleep for a certain interval before checking again
+		time.Sleep(time.Minute)
+
+	}
 }
