@@ -56,7 +56,7 @@ func startReminderScheduler() {
 		var reminders []models.Reminder
 		initializers.DB.Find(&reminders)
 
-		fmt.Println("Hello from the scheduler")
+		fmt.Println("Heartbeat: scheduler is alive")
 
 		for _, reminder := range reminders {
 			if reminder.Status == "Pending" {

@@ -11,4 +11,5 @@ type Note struct {
 	ContactId uint64
 	Date      time.Time
 	Content   string
+	Title     string
 }

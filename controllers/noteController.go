@@ -26,6 +26,7 @@ func CreateNote(c *gin.Context) {
 
 	var body struct {
 		Content string
+		Title   string
 	}
 
 	c.Bind(&body)
@@ -34,6 +35,7 @@ func CreateNote(c *gin.Context) {
 		ContactId: contactIdUIint,
 		Date:      time.Now(),
 		Content:   body.Content,
+		Title:     body.Title,
 	}
 
 	result := initializers.DB.Create(&note)
@@ -64,7 +66,7 @@ func ListNote(c *gin.Context) {
 	}
 
 	var notes []models.Note
-	if err := initializers.DB.Where("contact_id = ?", contactIdUIint).Find(&notes).Error; err != nil {
+	if err := initializers.DB.Where("contact_id = ?", contactIdUIint).Order("date DESC").Find(&notes).Error; err != nil {
 		c.Status(500)
 		return
 	}
@@ -92,13 +94,14 @@ func UpdateNote(c *gin.Context) {
 		ContactId uint64
 		Date      time.Time
 		Content   string
+		Title     string
 	}
 
 	var note models.Note
 	initializers.DB.First(&note, id)
 
 	c.Bind(&body)
-	initializers.DB.Model(&note).Updates(models.Note{ContactId: body.ContactId, Date: body.Date, Content: body.Content})
+	initializers.DB.Model(&note).Updates(models.Note{ContactId: body.ContactId, Date: body.Date, Content: body.Content, Title: body.Title})
 
 	c.JSON(200, gin.H{
 		"note": note,

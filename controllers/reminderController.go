@@ -28,6 +28,7 @@ func CreateReminder(c *gin.Context) {
 		Date   time.Time
 		Todo   string
 		Status string
+		Title  string
 	}
 
 	c.Bind(&body)
@@ -37,6 +38,7 @@ func CreateReminder(c *gin.Context) {
 		Date:      body.Date,
 		Todo:      body.Todo,
 		Status:    "Pending",
+		Title:     body.Title,
 	}
 
 	result := initializers.DB.Create(&reminder)
@@ -86,7 +88,7 @@ func ListContactReminder(c *gin.Context) {
 	}
 
 	var reminders []models.Reminder
-	if err := initializers.DB.Where("contact_id = ?", contactIdUIint).Find(&reminders).Error; err != nil {
+	if err := initializers.DB.Where("contact_id = ?", contactIdUIint).Order("date DESC").Find(&reminders).Error; err != nil {
 		c.Status(500)
 		return
 	}
@@ -104,13 +106,14 @@ func UpdateReminder(c *gin.Context) {
 		Date      time.Time
 		Todo      string
 		Status    string
+		Title     string
 	}
 
 	var reminder models.Reminder
 	initializers.DB.First(&reminder, id)
 
 	c.Bind(&body)
-	initializers.DB.Model(&reminder).Updates(models.Reminder{ContactId: body.ContactId, Date: body.Date, Todo: body.Todo, Status: body.Status})
+	initializers.DB.Model(&reminder).Updates(models.Reminder{ContactId: body.ContactId, Date: body.Date, Todo: body.Todo, Status: body.Status, Title: body.Title})
 
 	c.JSON(200, gin.H{
 		"reminder": reminder,
