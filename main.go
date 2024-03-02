@@ -24,6 +24,13 @@ func main() {
 	config.AllowOrigins = []string{"http://localhost:5173"} // Replace with your actual frontend domain
 	r.Use(cors.New(config))
 
+	// USER
+	r.POST("/api/user", controllers.CreateUser)
+	r.GET("/api/user", controllers.ListUsers)
+	r.GET("/api/user/:id", controllers.GetUser)
+	r.PUT("/api/user/:id", controllers.UpdateUser)
+	r.DELETE("/api/user/:id", controllers.DeleteUser)
+
 	// CONTACT
 	r.POST("/api/contact", controllers.CreateContact)
 	r.GET("/api/contact", controllers.ListContacts)
