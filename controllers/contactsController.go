@@ -9,15 +9,19 @@ import (
 
 func CreateContact(c *gin.Context) {
 	var body struct {
-		Name     string
-		LastName string
-		Email    string
-		Phone    string
-		LinkedIn string
+		UserID         uint64
+		Name           string
+		LastName       string
+		Email          string
+		Phone          string
+		LinkedIn       string
+		IsUser         bool
+		InvitationSent bool
+		ContactUserId  uint64
 	}
 
 	c.Bind(&body)
-	contact := models.Contact{Name: body.Name, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn}
+	contact := models.Contact{UserID: body.UserID, Name: body.Name, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn, IsUser: body.IsUser, InvitationSent: body.InvitationSent, ContactUserId: body.ContactUserId}
 	result := initializers.DB.Create(&contact)
 
 	if result.Error != nil {
