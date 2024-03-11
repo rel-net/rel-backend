@@ -18,10 +18,11 @@ func CreateContact(c *gin.Context) {
 		IsUser         bool
 		InvitationSent bool
 		ContactUserId  uint64
+		Group          string
 	}
 
 	c.Bind(&body)
-	contact := models.Contact{UserID: body.UserID, Name: body.Name, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn, IsUser: body.IsUser, InvitationSent: body.InvitationSent, ContactUserId: body.ContactUserId}
+	contact := models.Contact{UserID: body.UserID, Name: body.Name, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn, IsUser: body.IsUser, InvitationSent: body.InvitationSent, ContactUserId: body.ContactUserId, Group: body.Group}
 	result := initializers.DB.Create(&contact)
 
 	if result.Error != nil {
@@ -62,13 +63,14 @@ func UpdateContact(c *gin.Context) {
 		Email    string
 		Phone    string
 		LinkedIn string
+		Group    string
 	}
 
 	var contact models.Contact
 	initializers.DB.First(&contact, id)
 
 	c.Bind(&body)
-	initializers.DB.Model(&contact).Updates(models.Contact{Name: body.Name, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn})
+	initializers.DB.Model(&contact).Updates(models.Contact{Name: body.Name, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn, Group: body.Group})
 
 	c.JSON(200, gin.H{
 		"contact": contact,

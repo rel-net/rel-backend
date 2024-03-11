@@ -14,4 +14,5 @@ type Contact struct {
 	ContactUserId      uint64 // ID of the user when isUser = true
 	InvitationSent     bool
 	InvitationAccepted bool
+	Group              string
 }
