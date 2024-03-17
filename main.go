@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"rel/controllers"
 	"rel/initializers"
+	"rel/middlewares"
 	"rel/models"
 	"time"
 
@@ -21,8 +22,13 @@ func main() {
 
 	// Use CORS middleware
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:5173"} // Replace with your actual frontend domain
+	config.AllowOrigins = []string{"https://localhost:5173"} // Replace with your actual frontend domain
+	config.AllowCredentials = true
 	r.Use(cors.New(config))
+
+	r.POST("/api/login", controllers.LoginHandler)
+	r.POST("/api/signup", controllers.SignupHandler)
+	r.GET("/api/validate", middlewares.RequireAuth, controllers.ValidateHandler) // here RequireAuth is a middleware that we will be creating below. It protects the route
 
 	// USER
 	r.POST("/api/user", controllers.CreateUser)
@@ -32,9 +38,9 @@ func main() {
 	r.DELETE("/api/user/:id", controllers.DeleteUser)
 
 	// CONTACT
-	r.POST("/api/contact", controllers.CreateContact)
-	r.GET("/api/contact", controllers.ListContacts)
-	r.GET("/api/contact/:id", controllers.GetContact)
+	r.POST("/api/contact", middlewares.RequireAuth, controllers.CreateContact)
+	r.GET("/api/contact", middlewares.RequireAuth, controllers.ListContacts)
+	r.GET("/api/contact/:id", middlewares.RequireAuth, controllers.GetContact)
 	r.PUT("/api/contact/:id", controllers.UpdateContact)
 	r.DELETE("/api/contact/:id", controllers.DeleteContact)
 
@@ -55,7 +61,7 @@ func main() {
 
 	go startReminderScheduler()
 
-	r.Run()
+	r.RunTLS(":3000", "./certs/server.crt", "./certs/server.key")
 }
 
 func startReminderScheduler() {

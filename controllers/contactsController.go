@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+	"net/http"
 	"rel/initializers"
 	"rel/models"
 
@@ -37,6 +39,21 @@ func CreateContact(c *gin.Context) {
 func ListContacts(c *gin.Context) {
 	var contacts []models.Contact
 	initializers.DB.Find(&contacts)
+
+	userInterface, exists := c.Get("user")
+	if !exists {
+		// Handle the case where the user is not found in the context
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	user, ok := userInterface.(models.User)
+	if !ok {
+		// Handle the case where the value stored is not of type models.User
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	fmt.Printf(user.Email)
 
 	c.JSON(200, gin.H{
 		"contacts": contacts,

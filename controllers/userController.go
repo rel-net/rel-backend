@@ -15,10 +15,11 @@ func CreateUser(c *gin.Context) {
 		Phone     string
 		LinkedIn  string
 		Bio       string
+		Password  string
 	}
 
 	c.Bind(&body)
-	user := models.User{FirstName: body.FirstName, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn, Bio: body.Bio}
+	user := models.User{FirstName: body.FirstName, LastName: body.LastName, Email: body.Email, Phone: body.Phone, LinkedIn: body.LinkedIn, Bio: body.Bio, Password: body.Password}
 	result := initializers.DB.Create(&user)
 
 	if result.Error != nil {
