@@ -38,7 +38,6 @@ func CreateContact(c *gin.Context) {
 
 func ListContacts(c *gin.Context) {
 	var contacts []models.Contact
-	initializers.DB.Find(&contacts)
 
 	userInterface, exists := c.Get("user")
 	if !exists {
@@ -53,8 +52,8 @@ func ListContacts(c *gin.Context) {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
-	fmt.Printf(user.Email)
-
+	initializers.DB.Where("user_id = ?", user.ID).Find(&contacts)
+	fmt.Println(contacts)
 	c.JSON(200, gin.H{
 		"contacts": contacts,
 	})

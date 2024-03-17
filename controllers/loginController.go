@@ -109,7 +109,7 @@ func LoginHandler(c *gin.Context) {
 	c.SetSameSite(http.SameSiteNoneMode)
 	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", true, false)
 
-	c.JSON(http.StatusOK, gin.H{"jwt_token": tokenString})
+	c.JSON(http.StatusOK, gin.H{"jwt_token": tokenString, "user_id": user.ID})
 }
 
 func ValidateHandler(c *gin.Context) {
